@@ -1,5 +1,6 @@
 # TypeScript
 *.d.ts
+server/**/*.js
 tsconfig.tsbuildinfo
 
 # Logs
