@@ -7,6 +7,7 @@ function App() {
         <ul>
           <li className="my-message">Message 1</li>
           <li className="stranger-message">Message 2</li>
+          <li className="stranger-message">Message 3</li>
         </ul>
       </div>
       

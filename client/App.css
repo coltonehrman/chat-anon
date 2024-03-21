@@ -11,6 +11,7 @@
 }
 
 .chat-screen li {
+  border: 1px solid red;
   list-style: none;
 }
 
