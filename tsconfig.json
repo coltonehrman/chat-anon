@@ -3,5 +3,5 @@
   "compilerOptions": {
     "esModuleInterop": true
   },
-  "include": ["server"]
+  "include": ["server", "common"]
 }
