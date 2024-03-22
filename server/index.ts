@@ -7,12 +7,9 @@ const app = express();
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
-
-io.on("connection", (socket) => {
-  console.log(socket.id);
-});
-
-httpServer.listen(parseInt(process.env.PORT || "3000"), () => {
+const port: number = //? avoids extra string->number parsing
+  typeof process.env.PORT == "undefined" ? 3000 : parseInt(process.env.PORT);
+httpServer.listen(port, () => {
   console.log("Server is listening...");
 });
 
