@@ -3,7 +3,7 @@ import express from "express";
 import ViteExpress from "vite-express";
 import { Server } from "socket.io";
 import Events from "./socket.io/Events";
-import UserConnectionManager from "./controllers/UserConnector";
+import UserConnector from "./controllers/UserConnector";
 import SocketUser from "./models/SocketUser";
 
 const app = express();
@@ -13,7 +13,7 @@ const io = new Server(httpServer);
 const port: number = //? avoids extra string->number parsing
   typeof process.env.PORT == "undefined" ? 3000 : parseInt(process.env.PORT);
 
-const userConnectionManager = new UserConnectionManager();
+const userConnectionManager = new UserConnector();
 
 io.on(Events.join, (socket) => {
   const user = SocketUser.createRandomWithSocket(socket.id);
