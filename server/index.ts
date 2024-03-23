@@ -15,13 +15,13 @@ const port: number = //? avoids extra string->number parsing
 
 const roomController = new ChatRoomController(io);
 
-io.on(IOEvents.connected, (socket) => {
+io.on(IOEvents.connection, (socket) => {
   //? new user
   const user: User = User.create(socket);
   //? find or create a room for the user + add to room
   const room = roomController.addUserToValidChatRoom(user, 2);
 
-  io.on(IOEvents.disconnected, () => {
+  io.on(IOEvents.disconnect, () => {
     room.removeUser(user);
   });
 });

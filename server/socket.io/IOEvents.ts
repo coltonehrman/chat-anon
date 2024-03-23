@@ -2,9 +2,9 @@
  * - Used to avoid strings and typos */
 enum IOEvents {
   /** Connected to the server */
-  connected = "connected",
+  connection = "connection",
   /** Disconnected from the server */
-  disconnected = "disconnected",
+  disconnect = "disconnect",
 
   /** new room was created for user (since no rooms were found, or all were full) */
   createdRoom = "createdRoom",
