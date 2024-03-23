@@ -1,9 +1,4 @@
-#root {
-  width: 100%;
-  max-width: 1280px;
-  padding: 2rem;
-  text-align: center;
-}
+
 
 .chat-screen {
   width: 100%;
@@ -22,7 +17,6 @@
 .stranger-message {
   text-align: left;
 }
-
 form {
   display: flex;
   width: 100%;
@@ -30,4 +24,86 @@ form {
 
 form > input {
   flex: 1
+}
+
+
+.navigation {
+  display: flex;
+  justify-content:  space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  height: 60px;
+  padding: 0 30px;
+}
+
+
+
+.navigation a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+  margin-left: 20px;
+  font-size: 20px;
+ 
+ 
+}
+
+.navigation a:hover {
+  color: rgb(48, 170, 0);
+  
+}
+.siteName{
+  flex-grow: 1;
+}
+.navigation nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:15%;
+}
+/* styling for the start container */
+.startContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px); 
+}
+
+.startButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #007bff; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 20px; 
+  border-radius: 5px;
+  transition: background-color 0.3 ease;
+}
+
+.startButton i {
+  margin-bottom: 5px;
+}
+.startButton:hover{
+  background-color:#333;
+
+}
+
+.userIconContainer {
+  font-size: 48px; 
+  color: #007bff; 
+  margin-bottom: 30px; 
+}
+#interactive-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
