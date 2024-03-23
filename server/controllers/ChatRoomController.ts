@@ -24,18 +24,12 @@ class ChatRoomController {
   }
 
   /** Add a {@link User} to a random {@link ChatRoom} having space
-   * - This will also emit {@link IOEvents.createdRoom} (socket.io event) if a new room is created
-   * - This will also emit {@link IOEvents.joinedRoom} (socket.io event) joined
+   * - Or create a new one if no room has space or if no room exists
+   * - Note: socket.io events will be triggered while this is doing what it does
    * @param userCapIfNew the {@link ChatRoom._userCap} if creating a new {@link ChatRoom}
-   * @returns The {@link ChatRoom} of {@link user}. And whether it is new or not
+   * @returns The {@link ChatRoom} of {@link user}
    */
-  addUserToValidChatRoom(
-    user: User,
-    userCapIfNew: number = 2
-  ): {
-    room: ChatRoom;
-    isNewRoom: boolean;
-  } {
+  addUserToValidChatRoom(user: User, userCapIfNew: number = 2): ChatRoom {
     const roomsWithSpace: ChatRoom[] = [];
     for (const room of this.rooms.values()) {
       //? room must must have space
@@ -51,7 +45,7 @@ class ChatRoomController {
       //? Create a new room and auto add the user
       const room = new ChatRoom(this.ioServer, userCapIfNew, user);
       this.rooms.set(room.id, room);
-      return { room, isNewRoom: true };
+      return room;
     }
 
     //? found 1 or more rooms with space
@@ -64,7 +58,7 @@ class ChatRoomController {
       //? This shouldn't happen, if it ever happens it means I messed up and should fix it
       throw new Error(`Could not add user to room: room.id=${room.id} user.id=${user.id}`);
     }
-    return { room, isNewRoom: false };
+    return room;
   }
 
   /** Find and remove a {@link User} from their {@link ChatRoom}
