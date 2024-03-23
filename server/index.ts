@@ -19,10 +19,10 @@ io.on(IOEvents.connected, (socket) => {
   //? new user
   const user: User = User.create(socket);
   //? find or create a room for the user + add to room
-  const userJoinInfo = roomController.addUserToValidChatRoom(user);
+  const room = roomController.addUserToValidChatRoom(user, 2);
 
   io.on(IOEvents.disconnected, () => {
-    userJoinInfo.room.removeUser(user);
+    room.removeUser(user);
   });
 });
 
