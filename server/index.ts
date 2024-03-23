@@ -1,37 +1,28 @@
 import http from "http";
 import express from "express";
 import ViteExpress from "vite-express";
-import { Server } from "socket.io";
-import Events from "./socket.io/Events";
-import UserConnector from "./controllers/UserConnector";
-import SocketUser from "./models/SocketUser";
+import { Server as IOServer } from "socket.io";
+import IOEvents from "./socket.io/IOEvents";
+import ChatRoomController from "./controllers/ChatRoomController";
+import User from "./models/User";
 
 const app = express();
 
 const httpServer = http.createServer(app);
-const io = new Server(httpServer);
+const io = new IOServer(httpServer);
 const port: number = //? avoids extra string->number parsing
-  typeof process.env.PORT == "undefined" ? 3000 : parseInt(process.env.PORT);
+  process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-const userConnectionManager = new UserConnector();
+const roomController = new ChatRoomController(io);
 
-io.on(Events.join, (socket) => {
-  const user = SocketUser.createRandomWithSocket(socket.id);
-  userConnectionManager.addUser(user);
+io.on(IOEvents.connected, (socket) => {
+  //? new user
+  const user: User = User.create(socket);
+  //? find or create a room for the user + add to room
+  const userJoinInfo = roomController.addUserToValidChatRoom(user);
 
-  const userConnectedTo = userConnectionManager.connectToWaitingUser(user);
-  if (userConnectedTo) {
-    //? Notify both users that they are paired now
-    io.to(user.socketId).emit(Events.paired, userConnectedTo.id);
-    io.to(userConnectedTo.socketId).emit(Events.paired, user.id);
-  } else {
-    //? Broadcast that a this user is waiting
-    io.emit(Events.waiting, user.id);
-  }
-
-  io.on(Events.leave, () => {
-    if (userConnectedTo) userConnectionManager.disconnectUsers(user, user);
-    userConnectionManager.removeUser(user);
+  io.on(IOEvents.disconnected, () => {
+    userJoinInfo.room.removeUser(user);
   });
 });
 
