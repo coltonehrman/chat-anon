@@ -56,7 +56,7 @@ class ChatRoom {
 
   private addRemoveInfo(userId: string) {
     return {
-      userCap: this._userCap,
+      userCap: this.userCap,
       userIds: this.usersIds, //? all users in this room
       userId, //? user affected
     };
