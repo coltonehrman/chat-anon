@@ -32,8 +32,10 @@ class User {
   }
 
   /** Check if this user is in the specified {@link roomId}
+   * - if {@link roomId} is undefined, then check if user is in any room
    * @returns true if user is in the specified room */
-  isInChatRoom(roomId: string): boolean {
+  isInChatRoom(roomId: string | undefined): boolean {
+    if (!roomId) return !!this.chatRoomId;
     return this.chatRoomId === roomId;
   }
   /** Join a {@link ChatRoom.id} (socket io room)
