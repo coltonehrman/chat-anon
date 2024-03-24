@@ -21,7 +21,7 @@ io.on(IOEvents.connection, (socket) => {
   //? find or create a room for the user + add to room
   const room = roomController.addUserToValidChatRoom(user, 2);
 
-  io.on(IOEvents.disconnect, () => {
+  socket.on(IOEvents.disconnect, () => {
     room.removeUser(user);
   });
 });
