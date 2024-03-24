@@ -40,12 +40,12 @@ class User {
    * @returns true if joined */
   joinChatRoom(roomId: string): boolean {
     if (!ChatRoom.isIdForChatRoom(roomId)) return false;
-    this._chatRoomId = roomId;
     const leftThisRoom = this.leaveChatRoom(this.chatRoomId);
     if (!leftThisRoom) {
       //? If failed to leave current room then I messed up and should fix it
       throw new Error("Could not leave current chat room");
     }
+    this._chatRoomId = roomId;
     this.socket.join(roomId);
     return true;
   }
