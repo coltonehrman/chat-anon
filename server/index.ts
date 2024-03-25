@@ -1,10 +1,10 @@
-import http from "http";
-import express from "express";
-import ViteExpress from "vite-express";
-import { Server as IOServer } from "socket.io";
-import IOEvents from "./socket.io/IOEvents";
 import ChatRoomController from "./controllers/ChatRoomController";
+import IOEvents from "./socket.io/IOEvents";
+import { Server as IOServer } from "socket.io";
 import User from "./models/User";
+import ViteExpress from "vite-express";
+import express from "express";
+import http from "http";
 
 const app = express();
 
@@ -24,6 +24,10 @@ io.on(IOEvents.connection, (socket) => {
   socket.on(IOEvents.disconnect, () => {
     room.removeUser(user);
   });
+});
+
+app.get("/chat$", (_, res) => {
+  res.redirect("/chat/");
 });
 
 httpServer.listen(port, () => {

@@ -17,10 +17,10 @@ function App() {
         <div className="userIconContainer">
           <i className="fas fa-user"></i>
         </div>
-        <button className="startButton">
+        <a href="/chat/" className="startButton">
           <i className="fas fa-comments"></i>
           <span>Start Chat</span>
-        </button>
+        </a>
       </div>
     </>
   );
