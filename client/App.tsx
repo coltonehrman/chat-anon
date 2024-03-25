@@ -1,16 +1,11 @@
+import "./App.css";
 
-import './App.css';
-import { BackgroundAnimation } from './BackgroundAnimation';
-
-
+import { BackgroundAnimation } from "./BackgroundAnimation";
 
 function App() {
-  
-
   return (
     <>
-    <BackgroundAnimation/>
-      <canvas id="interactive-background"></canvas>
+      <BackgroundAnimation />
       <div className="navigation">
         <h1 className="siteName">Chat-Anon</h1>
         <nav>
