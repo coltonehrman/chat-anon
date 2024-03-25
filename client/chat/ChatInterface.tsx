@@ -1,6 +1,11 @@
+import "./ChatInterface.css";
+
+import { Header } from "../components/Header";
+
 function ChatInterface() {
   return (
     <>
+      <Header />
       <div className="chat-screen">
         <ul>
           <li className="my-message">Message 1</li>

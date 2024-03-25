@@ -1,0 +1,33 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
+  height: 60px;
+  padding: 0 30px;
+}
+
+.navigation a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+.navigation a:hover {
+  color: rgb(48, 170, 0);
+}
+
+.siteName {
+  flex-grow: 1;
+}
+
+.navigation nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 15%;
+}

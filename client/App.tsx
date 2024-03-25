@@ -1,18 +1,13 @@
 import "./App.css";
 
 import { BackgroundAnimation } from "./BackgroundAnimation";
+import { Header } from "./components/Header";
 
 function App() {
   return (
     <>
       <BackgroundAnimation />
-      <div className="navigation">
-        <h1 className="siteName">Chat-Anon</h1>
-        <nav>
-          <a href="">FAQ</a>
-          <a href="">Contact Us</a>
-        </nav>
-      </div>
+      <Header />
       <div className="startContainer">
         <div className="userIconContainer">
           <i className="fas fa-user"></i>
