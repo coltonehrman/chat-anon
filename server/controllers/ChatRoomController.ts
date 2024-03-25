@@ -1,5 +1,5 @@
-import { Server as IOServer } from "socket.io";
 import ChatRoom from "../models/ChatRoom";
+import { Server as IOServer } from "socket.io";
 import User from "../models/User";
 
 /** Controller for {@link ChatRoom}s

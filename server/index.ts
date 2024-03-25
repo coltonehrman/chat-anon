@@ -1,3 +1,4 @@
+import ChatRoom from "./models/ChatRoom";
 import ChatRoomController from "./controllers/ChatRoomController";
 import IOEvents from "./socket.io/IOEvents";
 import { Server as IOServer } from "socket.io";
@@ -16,13 +17,32 @@ const port: number = //? avoids extra string->number parsing
 const roomController = new ChatRoomController(io);
 
 io.on(IOEvents.connection, (socket) => {
+  let room: ChatRoom | undefined;
   //? new user
   const user: User = User.create(socket);
-  //? find or create a room for the user + add to room
-  const room = roomController.addUserToValidChatRoom(user, 2);
+
+  io.emit("clientsCount", io.engine.clientsCount);
+
+  socket.on("joinRoom", () => {
+    // Don't allow to join room if already exists
+    if (room) return;
+
+    //? find or create a room for the user + add to room
+    room = roomController.addUserToValidChatRoom(user, 2);
+  });
+
+  socket.on("sendMessage", (message) => {
+    if (!room?.id) return;
+
+    io.to(room.id).emit("newMessage", {
+      from: socket.id,
+      message,
+    });
+  });
 
   socket.on(IOEvents.disconnect, () => {
-    room.removeUser(user);
+    room?.removeUser(user);
+    io.emit("clientsCount", io.engine.clientsCount);
   });
 });
 

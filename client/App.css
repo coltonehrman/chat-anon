@@ -30,9 +30,19 @@
 }
 
 .userIconContainer {
-  font-size: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: #007bff;
   margin-bottom: 30px;
+}
+
+.userIconContainer i {
+  font-size: 3rem;
+}
+
+.userIconContainer div {
+  font-size: 2rem;
 }
 
 canvas {
