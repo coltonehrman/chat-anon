@@ -1,20 +1,32 @@
-import "./App.css";
+
+import './App.css';
+import { BackgroundAnimation } from './BackgroundAnimation';
+
+
 
 function App() {
+  
+
   return (
     <>
-      <div className="chat-screen">
-        <ul>
-          <li className="my-message">Message 1</li>
-          <li className="stranger-message">Message 2</li>
-          <li className="stranger-message">Message 3</li>
-        </ul>
+    <BackgroundAnimation/>
+      <canvas id="interactive-background"></canvas>
+      <div className="navigation">
+        <h1 className="siteName">Chat-Anon</h1>
+        <nav>
+          <a href="">FAQ</a>
+          <a href="">Contact Us</a>
+        </nav>
       </div>
-      
-      <form method="POST" action="/chat">
-        <input type="text" name="message" />
-        <button type="submit">Send</button>
-      </form>
+      <div className="startContainer">
+        <div className="userIconContainer">
+          <i className="fas fa-user"></i>
+        </div>
+        <button className="startButton">
+          <i className="fas fa-comments"></i>
+          <span>Start Chat</span>
+        </button>
+      </div>
     </>
   );
 }
