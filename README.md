@@ -9,4 +9,6 @@
 ## Getting Started
 
 1. Clone the app locally `git clone https://github.com/coltonehrman/chat-anon.git`
-1. Run the app locally `npm run dev`
+2. Run 'npm install tsx'
+3. Run the app locally `npm run dev`
+4. Access to chat-anon Web UI : http://localhost:3000
