@@ -4,6 +4,7 @@ import { Header } from "../components/Header";
 import { socket } from "../socket";
 
 function ChatInterface() {
+  const [isWaiting, setIsWaiting] = useState(true);
   const [textMessage, setTextMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
 
@@ -20,10 +21,18 @@ function ChatInterface() {
       console.log(data);
     };
 
+    const joinedRoomHandler = ({ userIds }: { userIds: string[] }) => {
+      if (userIds.length > 1) {
+        return setIsWaiting(false);
+      }
+    };
+
     socket.on("newMessage", newMessageHandler);
+    socket.on("joinedRoom", joinedRoomHandler);
 
     return () => {
       socket.off("newMessage", newMessageHandler);
+      socket.off("joinedRoom", joinedRoomHandler);
     };
   }, []);
 
@@ -32,6 +41,27 @@ function ChatInterface() {
     socket.emit("sendMessage", textMessage);
     setTextMessage("");
   };
+
+  if (isWaiting) {
+    return (
+      <div className="modal is-active">
+        <div className="modal-background"></div>
+        <div className="modal-card">
+          <header className="modal-card-head">
+            <p className="modal-card-title">Waiting for someone to join...</p>
+            <div className="loader-wrapper">
+              <div className="loader is-loading is-size-3"></div>
+            </div>
+          </header>
+          <footer className="modal-card-foot">
+            <div className="buttons">
+              <button className="button">Leave</button>
+            </div>
+          </footer>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

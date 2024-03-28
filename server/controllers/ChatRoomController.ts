@@ -54,10 +54,12 @@ class ChatRoomController {
     const randomIndex = Math.floor(Math.random() * roomsWithSpace.length);
     const room = roomsWithSpace[randomIndex];
     const added = room.addUser(user);
+
     if (!added) {
       //? This shouldn't happen, if it ever happens it means I messed up and should fix it
       throw new Error(`Could not add user to room: room.id=${room.id} user.id=${user.id}`);
     }
+
     return room;
   }
 

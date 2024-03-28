@@ -5,10 +5,8 @@ enum IOEvents {
   connection = "connection",
   /** Disconnected from the server */
   disconnect = "disconnect",
-
   /** new room was created for user (since no rooms were found, or all were full) */
   createdRoom = "createdRoom",
-
   /** User has joined a room */
   joinedRoom = "joinedRoom",
   /** User is waiting for other user to join */
