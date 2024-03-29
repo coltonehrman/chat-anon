@@ -1,6 +1,6 @@
-import { randomUUID } from "crypto";
+import ChatRoom from "./ChatRoom.js";
 import { Socket } from "socket.io";
-import ChatRoom from "./ChatRoom";
+import { randomUUID } from "crypto";
 
 /** Represents a user connected to the server through a {@link Socket} (socket.io)*/
 class User {

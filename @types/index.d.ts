@@ -1,6 +1,7 @@
 /** Events names for socket.io
  * - Used to avoid strings and typos */
-enum IOEvents {
+
+declare enum IOEvents {
   /** Connected to the server */
   connection = "connection",
   /** Disconnected from the server */
@@ -14,5 +15,3 @@ enum IOEvents {
   /** User has left a room */
   leftRoom = "leftRoom",
 }
-
-export default IOEvents;

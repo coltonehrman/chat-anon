@@ -1,6 +1,5 @@
-import IOEvents from "../socket.io/IOEvents";
 import { Server as IOServer } from "socket.io";
-import User from "./User";
+import User from "./User.js";
 import assert from "assert";
 import { randomUUID } from "crypto";
 

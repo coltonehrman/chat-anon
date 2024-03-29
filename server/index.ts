@@ -1,11 +1,15 @@
-import ChatRoom from "./models/ChatRoom";
-import ChatRoomController from "./controllers/ChatRoomController";
-import IOEvents from "./socket.io/IOEvents";
+import ChatRoom from "./models/ChatRoom.js";
+import ChatRoomController from "./controllers/ChatRoomController.js";
 import { Server as IOServer } from "socket.io";
-import User from "./models/User";
+import User from "./models/User.js";
 import ViteExpress from "vite-express";
 import express from "express";
+import { fileURLToPath } from "url";
 import http from "http";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -52,6 +56,10 @@ app.get("/chat$", (_, res) => {
 
 httpServer.listen(port, () => {
   console.log("Server is listening...");
+});
+
+ViteExpress.config({
+  viteConfigFile: path.resolve(__dirname, "..", "client", "vite.config.ts"),
 });
 
 ViteExpress.bind(app, httpServer);

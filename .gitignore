@@ -1,5 +1,5 @@
 # TypeScript
-*.d.ts
+dist/*
 server/**/*.js
 tsconfig.tsbuildinfo
 

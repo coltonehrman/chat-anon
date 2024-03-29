@@ -1,6 +1,6 @@
-import ChatRoom from "../models/ChatRoom";
+import ChatRoom from "../models/ChatRoom.js";
 import { Server as IOServer } from "socket.io";
-import User from "../models/User";
+import User from "../models/User.js";
 
 /** Controller for {@link ChatRoom}s
  * - {@link User} can only be in one {@link ChatRoom}
