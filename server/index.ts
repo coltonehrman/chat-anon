@@ -1,5 +1,6 @@
 import ChatRoom from "./models/ChatRoom.js";
 import ChatRoomController from "./controllers/ChatRoomController.js";
+import { IOEvents } from "../@types/enums.js";
 import { Server as IOServer } from "socket.io";
 import User from "./models/User.js";
 import ViteExpress from "vite-express";

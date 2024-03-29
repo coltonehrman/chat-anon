@@ -1,6 +1,6 @@
 # TypeScript
 dist/*
-server/**/*.js
+*.js
 tsconfig.tsbuildinfo
 
 # Logs
