@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Header } from "../components/Header";
+import { IOEvents } from "../../@types/enums.ts";
 import { socket } from "../socket";
 
 function ChatInterface() {
@@ -9,7 +10,7 @@ function ChatInterface() {
   const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
-    socket.emit("joinRoom");
+    socket.emit(IOEvents.joinRoom);
   }, []);
 
   useEffect(() => {
@@ -17,8 +18,6 @@ function ChatInterface() {
       setMessages((prevMessages) => {
         return [...prevMessages, data];
       });
-
-      console.log(data);
     };
 
     const joinedRoomHandler = ({ userIds }: { userIds: string[] }) => {
@@ -27,18 +26,18 @@ function ChatInterface() {
       }
     };
 
-    socket.on("newMessage", newMessageHandler);
-    socket.on("joinedRoom", joinedRoomHandler);
+    socket.on(IOEvents.newMessage, newMessageHandler);
+    socket.on(IOEvents.joinedRoom, joinedRoomHandler);
 
     return () => {
-      socket.off("newMessage", newMessageHandler);
-      socket.off("joinedRoom", joinedRoomHandler);
+      socket.off(IOEvents.newMessage, newMessageHandler);
+      socket.off(IOEvents.joinedRoom, joinedRoomHandler);
     };
   }, []);
 
   const sendMessage: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    socket.emit("sendMessage", textMessage);
+    socket.emit(IOEvents.sendMessage, textMessage);
     setTextMessage("");
   };
 

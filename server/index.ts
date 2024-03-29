@@ -26,9 +26,9 @@ io.on(IOEvents.connection, (socket) => {
   //? new user
   const user: User = User.create(socket);
 
-  io.emit("clientsCount", io.engine.clientsCount);
+  io.emit(IOEvents.clientsCount, io.engine.clientsCount);
 
-  socket.on("joinRoom", () => {
+  socket.on(IOEvents.joinRoom, () => {
     // Don't allow to join room if already exists
     if (room) return;
 
@@ -36,10 +36,10 @@ io.on(IOEvents.connection, (socket) => {
     room = roomController.addUserToValidChatRoom(user, 2);
   });
 
-  socket.on("sendMessage", (message) => {
+  socket.on(IOEvents.sendMessage, (message) => {
     if (!room?.id) return;
 
-    io.to(room.id).emit("newMessage", {
+    io.to(room.id).emit(IOEvents.newMessage, {
       from: socket.id,
       message,
     });
@@ -47,7 +47,7 @@ io.on(IOEvents.connection, (socket) => {
 
   socket.on(IOEvents.disconnect, () => {
     room?.removeUser(user);
-    io.emit("clientsCount", io.engine.clientsCount);
+    io.emit(IOEvents.clientsCount, io.engine.clientsCount);
   });
 });
 
