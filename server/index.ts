@@ -36,6 +36,13 @@ io.on(IOEvents.connection, (socket) => {
     room = roomController.addUserToValidChatRoom(user, 2);
   });
 
+  socket.on(IOEvents.leaveRoom, () => {
+    if (!room) return;
+
+    room.removeUser(user);
+    room = undefined;
+  });
+
   socket.on(IOEvents.sendMessage, (message) => {
     if (!room?.id) return;
 

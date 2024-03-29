@@ -26,12 +26,18 @@ function ChatInterface() {
       }
     };
 
+    const leftRoomHandler = (data) => {
+      console.log(data)
+    };
+
     socket.on(IOEvents.newMessage, newMessageHandler);
     socket.on(IOEvents.joinedRoom, joinedRoomHandler);
+    socket.on(IOEvents.leftRoom, leftRoomHandler);
 
     return () => {
       socket.off(IOEvents.newMessage, newMessageHandler);
-      socket.off(IOEvents.joinedRoom, joinedRoomHandler);
+      socket.off(IOEvents.joinedRoom, leftRoomHandler);
+      socket.off(IOEvents.leftRoom, joinedRoomHandler);
     };
   }, []);
 
@@ -39,6 +45,12 @@ function ChatInterface() {
     event.preventDefault();
     socket.emit(IOEvents.sendMessage, textMessage);
     setTextMessage("");
+  };
+
+  const leaveRoom: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.preventDefault();
+    socket.emit(IOEvents.leaveRoom);
+    location.replace("/")
   };
 
   if (isWaiting) {
@@ -54,7 +66,7 @@ function ChatInterface() {
           </header>
           <footer className="modal-card-foot">
             <div className="buttons">
-              <button className="button">Leave</button>
+              <button className="button" onClick={leaveRoom}>Leave</button>
             </div>
           </footer>
         </div>

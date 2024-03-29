@@ -14,6 +14,8 @@ export const enum IOEvents {
   joinedRoom = "joinedRoom",
   /** User is waiting for other user to join */
   waiting = "waiting",
+  /** User chose to leave room */
+  leaveRoom = "leaveRoom",
   /** User has left a room */
   leftRoom = "leftRoom",
   /** Send a message to room */
