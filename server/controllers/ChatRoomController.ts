@@ -16,6 +16,9 @@ class ChatRoomController {
     this.ioServer = ioServer;
     this.rooms = new Map();
   }
+  notifyUserTyping(roomId: string, userId: string) {
+    this.ioServer.to(roomId).emit("userTyping", userId);
+  }
 
   findRoomOfUser(userId: string): ChatRoom | undefined {
     for (const [, room] of this.rooms) {
