@@ -1,8 +1,8 @@
+import { IOEvents } from "../../@types/enums.js";
 import { Server as IOServer } from "socket.io";
-import User from "./User";
-import { randomUUID } from "crypto";
-import IOEvents from "../socket.io/IOEvents";
+import User from "./User.js";
 import assert from "assert";
+import { randomUUID } from "crypto";
 
 class ChatRoom {
   private ioServer: IOServer;
@@ -41,7 +41,11 @@ class ChatRoom {
   }
 
   get usersIds(): string[] {
-    return Array.from(this._users.keys());
+    const ids = [];
+    for (const [, user] of this._users) {
+      ids.push(user.socket.id);
+    }
+    return ids;
   }
 
   hasUserById(userId: string): boolean {
@@ -73,7 +77,7 @@ class ChatRoom {
 
     this.ioServer
       .to(this.id) //? only in this room
-      .emit(IOEvents.joinedRoom, this.addRemoveInfo(user.id));
+      .emit(IOEvents.joinedRoom, this.addRemoveInfo(user.socket.id));
     return true;
   }
 

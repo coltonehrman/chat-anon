@@ -1,0 +1,7 @@
+{
+  "extends": "../node_modules/@tsconfig/node21/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../"
+  },
+  "include": [".", "../@types"]
+}

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { BackgroundAnimation } from "./BackgroundAnimation";
 import { Header } from "./components/Header";
+import { IOEvents } from "../@types/enums.ts";
 import { socket } from "./socket";
 
 function App() {
@@ -14,10 +15,10 @@ function App() {
       setClientsCount(count);
     };
 
-    socket.on("clientsCount", clientCountHandler);
+    socket.on(IOEvents.clientsCount, clientCountHandler);
 
     return () => {
-      socket.off("clientsCount", clientCountHandler);
+      socket.off(IOEvents.clientsCount, clientCountHandler);
     };
   }, []);
 

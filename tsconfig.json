@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.node.json",
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "target": "ES2022"
-  },
-  "include": ["server", "common"],
-}

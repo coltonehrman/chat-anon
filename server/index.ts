@@ -1,11 +1,16 @@
-import ChatRoom from "./models/ChatRoom";
-import ChatRoomController from "./controllers/ChatRoomController";
-import IOEvents from "./socket.io/IOEvents";
+import ChatRoom from "./models/ChatRoom.js";
+import ChatRoomController from "./controllers/ChatRoomController.js";
+import { IOEvents } from "../@types/enums.js";
 import { Server as IOServer } from "socket.io";
-import User from "./models/User";
+import User from "./models/User.js";
 import ViteExpress from "vite-express";
 import express from "express";
+import { fileURLToPath } from "url";
 import http from "http";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -21,9 +26,9 @@ io.on(IOEvents.connection, (socket) => {
   //? new user
   const user: User = User.create(socket);
 
-  io.emit("clientsCount", io.engine.clientsCount);
+  io.emit(IOEvents.clientsCount, io.engine.clientsCount);
 
-  socket.on("joinRoom", () => {
+  socket.on(IOEvents.joinRoom, () => {
     // Don't allow to join room if already exists
     if (room) return;
 
@@ -31,10 +36,17 @@ io.on(IOEvents.connection, (socket) => {
     room = roomController.addUserToValidChatRoom(user, 2);
   });
 
-  socket.on("sendMessage", (message) => {
+  socket.on(IOEvents.leaveRoom, () => {
+    if (!room) return;
+
+    room.removeUser(user);
+    room = undefined;
+  });
+
+  socket.on(IOEvents.sendMessage, (message) => {
     if (!room?.id) return;
 
-    io.to(room.id).emit("newMessage", {
+    io.to(room.id).emit(IOEvents.newMessage, {
       from: socket.id,
       message,
     });
@@ -42,7 +54,7 @@ io.on(IOEvents.connection, (socket) => {
 
   socket.on(IOEvents.disconnect, () => {
     room?.removeUser(user);
-    io.emit("clientsCount", io.engine.clientsCount);
+    io.emit(IOEvents.clientsCount, io.engine.clientsCount);
   });
 });
 
@@ -52,6 +64,10 @@ app.get("/chat$", (_, res) => {
 
 httpServer.listen(port, () => {
   console.log("Server is listening...");
+});
+
+ViteExpress.config({
+  viteConfigFile: path.resolve(__dirname, "..", "client", "vite.config.ts"),
 });
 
 ViteExpress.bind(app, httpServer);
