@@ -4,5 +4,5 @@
     "esModuleInterop": true,
     "target": "ES2022"
   },
-  "include": ["server", "common"]
+  "include": ["server", "common"],
 }
