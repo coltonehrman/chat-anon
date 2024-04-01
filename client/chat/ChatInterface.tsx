@@ -3,11 +3,30 @@ import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { IOEvents } from "../../@types/enums.ts";
 import { socket } from "../socket";
+import { text } from "stream/consumers";
 
 function ChatInterface() {
   const [isWaiting, setIsWaiting] = useState(true);
   const [textMessage, setTextMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
+
+  const [profanityList, setProfanityList] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("NSFWList.txt")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load the list!')
+        }
+        return response.text();
+      })
+      .then((text) => {
+        const list = (text).split("\n").map((word: string) => word.trim());
+        setProfanityList(list);
+      })
+      .catch(error => console.error("Error loading profanity list: ", error));
+  }, []);
+
   const [notification, setNotification] = useState<string | null>(null);
 
   useEffect(() => {
@@ -47,7 +66,8 @@ function ChatInterface() {
 
   const sendMessage: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    socket.emit(IOEvents.sendMessage, textMessage);
+    const filteredMessage = filterProfanity(textMessage);
+    socket.emit(IOEvents.sendMessage, filteredMessage);
     setTextMessage("");
   };
 
@@ -88,6 +108,23 @@ function ChatInterface() {
         </div>
       </div>
     );
+  }
+
+  const filterProfanity = (message: string): string => {
+    let listMessage = message.split(" ");
+    let filteredMessage = "";
+    for (let j = 0; j < profanityList.length; j++) {
+      for (let i = 0; i < listMessage.length; i++) {
+        if (profanityList[j] === listMessage[i]) {
+          listMessage[i] = "***";
+        }
+      }
+    }
+    for (let i = 0; i < listMessage.length; i++) {
+      filteredMessage += (listMessage[i] + " ");
+    }
+    console.log(filteredMessage);
+    return filteredMessage;
   }
 
   return (
