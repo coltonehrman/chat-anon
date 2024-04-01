@@ -8,5 +8,6 @@
 
 ## Getting Started
 
-1. Clone the app locally `git clone https://github.com/coltonehrman/chat-anon.git`
-1. Run the app locally `npm run dev`
+1. Clone the app locally: `git clone https://github.com/coltonehrman/chat-anon.git`
+1. Install the project dependencies: `npm i`
+1. Run the app locally: `npm run dev`
