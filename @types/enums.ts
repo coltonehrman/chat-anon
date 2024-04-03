@@ -27,7 +27,7 @@ export const enum IOEvents {
 
   typing = 'typing',
 
-  notTyping = 'notTyping',
+  stoppedTyping = 'stopppedTyping',
   
   
 }
