@@ -9,6 +9,27 @@ function ChatInterface() {
   const [textMessage, setTextMessage] = useState("");
   const [messages, setMessages] = useState<any[]>([]);
   const [notification, setNotification] = useState<string | null>(null);
+  const [isTyping, setIsTyping] = useState(false);
+  
+
+
+  let typingTimer: NodeJS.Timeout | null = null;
+
+const typingStartedHandler = () => {
+  setIsTyping(true)
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(() => {
+    setIsTyping(false);
+  }, 5000); // Adjust the debounce time as needed
+};
+
+const typingStoppedHandler = () => {
+  
+
+    setIsTyping(false);
+ 
+};
+
 
   useEffect(() => {
     socket.emit(IOEvents.joinRoom);
@@ -30,18 +51,22 @@ function ChatInterface() {
     const leftRoomHandler = ({ userIds }: { userIds: string[] }) => {
       if (userIds.length === 1) {
         setIsWaiting(true);
-        setNotification("User left chat room")
+        setNotification("User left chat room");
       }
     };
 
     socket.on(IOEvents.newMessage, newMessageHandler);
     socket.on(IOEvents.joinedRoom, joinedRoomHandler);
     socket.on(IOEvents.leftRoom, leftRoomHandler);
+    socket.on(IOEvents.typing, typingStartedHandler);
+    socket.on(IOEvents.stoppedTyping, typingStoppedHandler);
 
     return () => {
       socket.off(IOEvents.newMessage, newMessageHandler);
       socket.off(IOEvents.joinedRoom, leftRoomHandler);
       socket.off(IOEvents.leftRoom, joinedRoomHandler);
+      socket.off(IOEvents.typing, typingStartedHandler);
+      socket.off(IOEvents.stoppedTyping, typingStoppedHandler);
     };
   }, []);
 
@@ -120,13 +145,23 @@ function ChatInterface() {
             </ul>
 
             <form method="POST" action="/chat" onSubmit={sendMessage}>
+              {isTyping && <p>Other user is typing...</p>}
+
               <div className="field has-addons block">
                 <p className="control is-expanded">
                   <input
                     type="text"
                     name="message"
                     value={textMessage}
-                    onChange={({ target: { value } }) => setTextMessage(value)}
+                    onChange={({ target: { value } }) => {
+                      setTextMessage(value);
+                      if (value.trim() !== "") {
+                        typingStartedHandler(); 
+                      } else {
+                        
+                        typingStoppedHandler(); 
+                      }
+                    }}
                     className="input"
                   />
                 </p>

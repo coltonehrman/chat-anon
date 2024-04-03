@@ -24,4 +24,10 @@ export const enum IOEvents {
   newMessage = "newMessage",
   /** Number of connected clients updated */
   clientsCount = "clientsCount",
+
+  typing = 'typing',
+
+  stoppedTyping = 'stopppedTyping',
+  
+  
 }
